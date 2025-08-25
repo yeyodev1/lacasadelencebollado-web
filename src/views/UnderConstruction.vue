@@ -36,9 +36,9 @@ onMounted(() => {
         <div class="contact-info">
           <p class="contact-text">Mientras tanto, puedes contactarnos:</p>
           <div class="contact-methods">
-            <a href="tel:+593999999999" class="contact-link">
-               <i class="fas fa-phone"></i>
-               +593 99 999 9999
+            <a href="https://wa.me/593978602847" target="_blank" class="contact-link">
+               <i class="fab fa-whatsapp"></i>
+               +593 97 860 2847
              </a>
             <a href="mailto:info@lacasadelencebollado.com" class="contact-link">
                <i class="fas fa-envelope"></i>
