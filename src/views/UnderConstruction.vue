@@ -16,10 +16,10 @@ onMounted(() => {
 <template>
   <div class="under-construction">
     <div class="container" :class="{ 'fade-in': isVisible }">
-      <!-- Logo/Icono principal -->
-      <div class="icon-wrapper">
-        <div class="construction-icon">
-          <i class="fas fa-utensils"></i>
+      <!-- Logo principal -->
+      <div class="logo-wrapper">
+        <div class="logo-container">
+          <img src="@/assets/logos/logo-casenc.jpg" alt="La Casa del Encebollado" class="logo" />
         </div>
       </div>
 
@@ -87,18 +87,28 @@ onMounted(() => {
   }
 }
 
-.icon-wrapper {
+.logo-wrapper {
   margin-bottom: 2rem;
 
-  .construction-icon {
-    width: 80px;
-    height: 80px;
+  .logo-container {
+    width: 120px;
+    height: 120px;
     margin: 0 auto;
-    color: $ENCEBOLLADO-PRIMARY;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba($ENCEBOLLADO-PRIMARY, 0.2);
     animation: pulse 2s infinite;
+    border: 3px solid $ENCEBOLLADO-PRIMARY;
 
-    i {
-      font-size: 80px;
+    .logo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
     }
   }
 }
@@ -288,9 +298,9 @@ onMounted(() => {
     padding: 1rem;
   }
 
-  .icon-wrapper .construction-icon {
-    width: 60px;
-    height: 60px;
+  .logo-wrapper .logo-container {
+    width: 100px;
+    height: 100px;
   }
 }
 </style>
