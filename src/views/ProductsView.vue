@@ -2,9 +2,11 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useMenuStore } from '../stores/menuStore';
-import type { CategoriaProducto } from '../types/menu';
+import { useCartStore } from '../stores/cartStore';
+import type { CategoriaProducto, Producto } from '../types/menu';
 
 const menuStore = useMenuStore();
+const cartStore = useCartStore();
 const router = useRouter();
 
 // Local state for UI (simplified)
@@ -67,6 +69,24 @@ const getCategoryInfo = (categoryId: CategoriaProducto) => {
 
 const goToProductDetail = (productId: string | number) => {
   router.push(`/productos/${productId}`);
+};
+
+const addToCart = (product: Producto, event?: Event) => {
+  if (event) {
+    event.stopPropagation(); // Evitar que se active el click del card
+  }
+  
+  if (!product.availability) {
+    return;
+  }
+  
+  try {
+    cartStore.addItem(product, 1);
+    // Aquí podrías agregar una notificación de éxito
+  } catch (error) {
+    console.error('Error al agregar producto al carrito:', error);
+    // Aquí podrías agregar una notificación de error
+  }
 };
 
 // Lifecycle
@@ -242,6 +262,7 @@ onMounted(() => {
                     <button 
                       class="add-to-cart-btn"
                       :disabled="!product.availability"
+                      @click="addToCart(product, $event)"
                     >
                       <i class="icon-cart"></i>
                       {{ product.availability ? 'Agregar' : 'Agotado' }}
