@@ -16,10 +16,10 @@ const sortOrder = ref<'asc' | 'desc'>('asc');
 // Computed properties
 const sortedProducts = computed(() => {
   const products = [...menuStore.filteredProducts];
-  
+
   return products.sort((a, b) => {
     let comparison = 0;
-    
+
     switch (sortBy.value) {
       case 'name':
         comparison = a.name.localeCompare(b.name);
@@ -31,21 +31,21 @@ const sortedProducts = computed(() => {
         comparison = (b.isPopular ? 1 : 0) - (a.isPopular ? 1 : 0);
         break;
     }
-    
+
     return sortOrder.value === 'asc' ? comparison : -comparison;
   });
 });
 
 const productsByCategory = computed(() => {
   const grouped = new Map();
-  
+
   sortedProducts.value.forEach(product => {
     if (!grouped.has(product.category)) {
       grouped.set(product.category, []);
     }
     grouped.get(product.category).push(product);
   });
-  
+
   return grouped;
 });
 
@@ -419,58 +419,58 @@ onMounted(() => {
   background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
   color: white;
   padding: 3rem 0;
-  
+
   .header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 2rem;
-    
+
     @media (max-width: 768px) {
       flex-direction: column;
       text-align: center;
     }
   }
-  
+
   .title-section {
     flex: 1;
   }
-  
+
   .page-title {
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
-    
+
     @media (max-width: 768px) {
       font-size: 2rem;
     }
   }
-  
+
   .page-subtitle {
     font-size: 1.1rem;
     opacity: 0.9;
     margin: 0;
   }
-  
+
   .stats-section {
     display: flex;
     gap: 2rem;
-    
+
     @media (max-width: 768px) {
       justify-content: center;
     }
   }
-  
+
   .stat-item {
     text-align: center;
-    
+
     .stat-number {
       display: block;
       font-size: 2rem;
       font-weight: 700;
       color: #f39c12;
     }
-    
+
     .stat-label {
       font-size: 0.9rem;
       opacity: 0.8;
@@ -493,7 +493,7 @@ onMounted(() => {
   align-items: center;
   padding: 1rem 0;
   gap: 1rem;
-  
+
   @media (max-width: 768px) {
     flex-direction: column;
   }
@@ -509,20 +509,20 @@ onMounted(() => {
   border-radius: 0.5rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  
+
   &:hover {
     background: #e9ecef;
   }
-  
+
   &.active {
     background: #007bff;
     color: white;
     border-color: #007bff;
   }
-  
+
   .icon-chevron {
     transition: transform 0.3s ease;
-    
+
     &.rotated {
       transform: rotate(180deg);
     }
@@ -539,14 +539,14 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  
+
   .sort-select {
     padding: 0.5rem;
     border: 1px solid #dee2e6;
     border-radius: 0.25rem;
     background: white;
   }
-  
+
   .sort-order {
     padding: 0.5rem;
     border: 1px solid #dee2e6;
@@ -554,11 +554,11 @@ onMounted(() => {
     background: white;
     cursor: pointer;
     transition: all 0.3s ease;
-    
+
     &:hover {
       background: #f8f9fa;
     }
-    
+
     &.desc {
       transform: rotate(180deg);
     }
@@ -570,23 +570,23 @@ onMounted(() => {
   border: 1px solid #dee2e6;
   border-radius: 0.25rem;
   overflow: hidden;
-  
+
   .view-btn {
     padding: 0.5rem 0.75rem;
     border: none;
     background: white;
     cursor: pointer;
     transition: all 0.3s ease;
-    
+
     &:hover {
       background: #f8f9fa;
     }
-    
+
     &.active {
       background: #007bff;
       color: white;
     }
-    
+
     &:not(:last-child) {
       border-right: 1px solid #dee2e6;
     }
@@ -597,7 +597,7 @@ onMounted(() => {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease;
-  
+
   &.visible {
     max-height: 500px;
     padding: 1rem 0;
@@ -627,7 +627,7 @@ onMounted(() => {
   border: 1px solid #dee2e6;
   border-radius: 0.5rem;
   font-size: 1rem;
-  
+
   &:focus {
     outline: none;
     border-color: #007bff;
@@ -649,11 +649,11 @@ onMounted(() => {
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.9rem;
-  
+
   &:hover {
     background: #f8f9fa;
   }
-  
+
   &.active {
     background: #007bff;
     color: white;
@@ -666,7 +666,7 @@ onMounted(() => {
     width: 100%;
     margin-bottom: 0.5rem;
   }
-  
+
   .price-display {
     text-align: center;
     font-weight: 600;
@@ -691,11 +691,11 @@ onMounted(() => {
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.9rem;
-  
+
   &:hover {
     background: #f8f9fa;
   }
-  
+
   &.active {
     background: #28a745;
     color: white;
@@ -705,7 +705,7 @@ onMounted(() => {
 
 .filters-actions {
   text-align: center;
-  
+
   .clear-filters-btn {
     padding: 0.75rem 1.5rem;
     background: #dc3545;
@@ -714,7 +714,7 @@ onMounted(() => {
     border-radius: 0.5rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    
+
     &:hover {
       background: #c82333;
     }
@@ -731,7 +731,7 @@ onMounted(() => {
 .empty-state {
   text-align: center;
   padding: 3rem 1rem;
-  
+
   .loading-spinner {
     width: 3rem;
     height: 3rem;
@@ -741,23 +741,23 @@ onMounted(() => {
     animation: spin 1s linear infinite;
     margin: 0 auto 1rem;
   }
-  
+
   .error-icon,
   .empty-icon {
     font-size: 3rem;
     margin-bottom: 1rem;
   }
-  
+
   h3 {
     color: #495057;
     margin-bottom: 0.5rem;
   }
-  
+
   p {
     color: #6c757d;
     margin-bottom: 1rem;
   }
-  
+
   .retry-btn {
     padding: 0.75rem 1.5rem;
     background: #007bff;
@@ -766,7 +766,7 @@ onMounted(() => {
     border-radius: 0.5rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    
+
     &:hover {
       background: #0056b3;
     }
@@ -774,14 +774,19 @@ onMounted(() => {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 // Category Section
 .category-section {
   margin-bottom: 3rem;
-  
+
   &:last-child {
     margin-bottom: 0;
   }
@@ -791,19 +796,19 @@ onMounted(() => {
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
   border-bottom: 2px solid #e9ecef;
-  
+
   .category-title {
     font-size: 1.8rem;
     font-weight: 700;
     color: #2c3e50;
     margin-bottom: 0.5rem;
   }
-  
+
   .category-description {
     color: #6c757d;
     margin-bottom: 0.5rem;
   }
-  
+
   .products-count {
     display: inline-block;
     padding: 0.25rem 0.75rem;
@@ -822,23 +827,23 @@ onMounted(() => {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1.5rem;
   }
-  
+
   &.list-view {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    
+
     .product-card {
       display: flex;
       align-items: center;
-      
+
       .product-image {
         width: 120px;
         height: 120px;
         flex-shrink: 0;
         margin-right: 1rem;
       }
-      
+
       .product-info {
         flex: 1;
       }
@@ -853,24 +858,24 @@ onMounted(() => {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   cursor: pointer;
-  
+
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
   }
-  
+
   &.unavailable {
     opacity: 0.7;
-    
+
     .product-image img {
       filter: grayscale(100%);
     }
   }
-  
+
   &.promotion {
     border: 2px solid #f39c12;
   }
-  
+
   &.popular {
     border: 2px solid #e74c3c;
   }
@@ -881,14 +886,14 @@ onMounted(() => {
   width: 100%;
   height: 200px;
   overflow: hidden;
-  
+
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
   }
-  
+
   &:hover img {
     transform: scale(1.05);
   }
@@ -911,17 +916,17 @@ onMounted(() => {
   border-radius: 1rem;
   font-size: 0.75rem;
   font-weight: 600;
-  
+
   &.popular {
     background: #e74c3c;
     color: white;
   }
-  
+
   &.promotion {
     background: #f39c12;
     color: white;
   }
-  
+
   &.unavailable {
     background: #6c757d;
     color: white;
@@ -946,6 +951,7 @@ onMounted(() => {
   line-height: 1.4;
   margin-bottom: 1rem;
   display: -webkit-box;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -988,11 +994,11 @@ onMounted(() => {
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 600;
-  
+
   &:hover:not(:disabled) {
     background: #0056b3;
   }
-  
+
   &:disabled {
     background: #6c757d;
     cursor: not-allowed;
@@ -1004,14 +1010,14 @@ onMounted(() => {
   .filters-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .products-grid.grid-view {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   }
-  
+
   .products-grid.list-view .product-card {
     flex-direction: column;
-    
+
     .product-image {
       width: 100%;
       margin-right: 0;
@@ -1024,7 +1030,7 @@ onMounted(() => {
   .products-grid.grid-view {
     grid-template-columns: 1fr;
   }
-  
+
   .category-filters,
   .quick-filters {
     justify-content: center;
