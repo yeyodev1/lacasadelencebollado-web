@@ -26,16 +26,36 @@ onMounted(() => {
       <!-- Contenido principal -->
       <div class="content">
         <h1 class="title">La Casa del Encebollado</h1>
-        <h2 class="subtitle">Sitio en Construcción</h2>
+        <h2 class="subtitle">El verdadero sabor Guayaco</h2>
         <p class="description">
-          Estamos trabajando arduamente para traerte la mejor experiencia culinaria.
-          Muy pronto podrás disfrutar de nuestros deliciosos encebollados.
+          Descubre la auténtica tradición culinaria de Guayaquil en cada plato.
+          Sabores únicos que despiertan tus sentidos y te transportan al corazón de la costa ecuatoriana.
         </p>
+        
+        <!-- Galería de productos -->
+        <div class="products-gallery">
+          <div class="product-item">
+            <img src="@/assets/stock/encebollado.png" alt="Encebollado" class="product-image" />
+            <h3 class="product-name">Encebollado</h3>
+          </div>
+          <div class="product-item">
+            <img src="@/assets/stock/bollo.png" alt="Bollo" class="product-image" />
+            <h3 class="product-name">Bollo</h3>
+          </div>
+          <div class="product-item">
+            <img src="@/assets/stock/chifle.png" alt="Chifle" class="product-image" />
+            <h3 class="product-name">Chifle</h3>
+          </div>
+        </div>
         
         <!-- Información de contacto -->
         <div class="contact-info">
-          <p class="contact-text">Mientras tanto, puedes contactarnos:</p>
+          <p class="contact-text">Visítanos o contáctanos:</p>
           <div class="contact-methods">
+            <a href="https://maps.app.goo.gl/w5AxsfAFWsz4N7yh6" target="_blank" class="contact-link">
+               <i class="fas fa-map-marker-alt"></i>
+               Nuestra Ubicación
+             </a>
             <a href="https://wa.me/593978602847" target="_blank" class="contact-link">
                <i class="fab fa-whatsapp"></i>
                +593 97 860 2847
@@ -155,6 +175,68 @@ onMounted(() => {
   }
 }
 
+.products-gallery {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    gap: 1rem;
+  }
+}
+
+.product-item {
+  text-align: center;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+
+  .product-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba($ENCEBOLLADO-PRIMARY, 0.15);
+    transition: all 0.3s ease;
+    border: 2px solid $blue-overlay;
+
+    &:hover {
+      box-shadow: 0 8px 24px rgba($ENCEBOLLADO-PRIMARY, 0.25);
+      border-color: $ENCEBOLLADO-PRIMARY;
+    }
+
+    @media (max-width: 768px) {
+      width: 70px;
+      height: 70px;
+    }
+
+    @media (max-width: 480px) {
+      width: 60px;
+      height: 60px;
+    }
+  }
+
+  .product-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $text-dark;
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+
+    @media (max-width: 480px) {
+      font-size: 0.75rem;
+    }
+  }
+}
+
 .contact-info {
   .contact-text {
     font-size: 1rem;
@@ -169,10 +251,14 @@ onMounted(() => {
     gap: 0.75rem;
     align-items: center;
 
-    @media (min-width: 480px) {
+    @media (min-width: 768px) {
       flex-direction: row;
       justify-content: center;
-      gap: 2rem;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 767px) {
+      gap: 0.5rem;
     }
   }
 
