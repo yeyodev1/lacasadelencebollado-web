@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import type { Producto } from '../types/menu';
 
 // Notification interface
@@ -19,13 +19,52 @@ export interface CartItem {
 }
 
 export const useCartStore = defineStore('cart', () => {
-  // State
-  const items = ref<CartItem[]>([]);
+  // Constantes para localStorage
+  const CART_STORAGE_KEY = 'lacasadelencebollado_cart';
+  
+  // Función para cargar datos del localStorage
+  const loadCartFromStorage = (): CartItem[] => {
+    try {
+      const stored = localStorage.getItem(CART_STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        // Convertir las fechas de string a Date objects
+        return parsed.map((item: any) => ({
+          ...item,
+          addedAt: new Date(item.addedAt)
+        }));
+      }
+    } catch (error) {
+      console.warn('Error loading cart from localStorage:', error);
+    }
+    return [];
+  };
+  
+  // Función para guardar datos en localStorage
+  const saveCartToStorage = (cartItems: CartItem[]) => {
+    try {
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
+    } catch (error) {
+      console.warn('Error saving cart to localStorage:', error);
+    }
+  };
+
+  // State - Cargar datos iniciales del localStorage
+  const items = ref<CartItem[]>(loadCartFromStorage());
   const isOpen = ref(false);
   
   // Estado de notificaciones
   const notifications = ref<ToastNotification[]>([]);
   const currentNotification = ref<ToastNotification | null>(null);
+  
+  // Watcher para persistir cambios automáticamente
+  watch(
+    items,
+    (newItems) => {
+      saveCartToStorage(newItems);
+    },
+    { deep: true }
+  );
 
   // Getters
   const totalItems = computed(() => {
@@ -133,6 +172,16 @@ export const useCartStore = defineStore('cart', () => {
 
   const clearCart = () => {
     items.value = [];
+    // El watcher se encargará de guardar automáticamente
+  };
+  
+  const clearCartStorage = () => {
+    try {
+      localStorage.removeItem(CART_STORAGE_KEY);
+      items.value = [];
+    } catch (error) {
+      console.warn('Error clearing cart storage:', error);
+    }
   };
 
   const toggleCart = () => {
@@ -278,6 +327,7 @@ export const useCartStore = defineStore('cart', () => {
     incrementQuantity,
     decrementQuantity,
     clearCart,
+    clearCartStorage,
     toggleCart,
     openCart,
     closeCart,
