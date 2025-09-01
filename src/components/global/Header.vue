@@ -77,7 +77,7 @@ const clearSearch = () => {
           :class="{ active: isSearchOpen }"
           title="Buscar productos"
         >
-          🔍
+          <i class="fas fa-search"></i>
         </button>
         
         <!-- Desktop Navigation -->
@@ -85,7 +85,7 @@ const clearSearch = () => {
           <router-link to="/" class="nav-link" active-class="active">Inicio</router-link>
           <router-link to="/productos" class="nav-link" active-class="active">Productos</router-link>
           <a href="https://wa.me/593987654321" target="_blank" class="nav-link contact-link">
-            💬 Contacto
+            <i class="fab fa-whatsapp"></i> Contacto
           </a>
         </nav>
         
@@ -106,7 +106,7 @@ const clearSearch = () => {
     <div class="search-bar" :class="{ visible: isSearchOpen }">
       <div class="search-container">
         <div class="search-input-wrapper">
-          <span class="search-icon">🔍</span>
+          <span class="search-icon"><i class="fas fa-search"></i></span>
           <input 
             v-model="searchQuery"
             type="text"
@@ -119,7 +119,7 @@ const clearSearch = () => {
             class="clear-search"
             @click="clearSearch"
           >
-            ✕
+            <i class="fas fa-times"></i>
           </button>
         </div>
         <button class="search-btn" @click="handleSearch">
@@ -134,7 +134,7 @@ const clearSearch = () => {
         <div class="mobile-nav-header">
           <h3>Navegación</h3>
           <button class="close-mobile-nav" @click="closeMobileMenu">
-            ✕
+            <i class="fas fa-times"></i>
           </button>
         </div>
         
@@ -145,7 +145,7 @@ const clearSearch = () => {
             active-class="active"
             @click="closeMobileMenu"
           >
-            🏠 Inicio
+            <i class="fas fa-home"></i> Inicio
           </router-link>
           <router-link 
             to="/productos" 
@@ -153,7 +153,7 @@ const clearSearch = () => {
             active-class="active"
             @click="closeMobileMenu"
           >
-            📋 Productos
+            <i class="fas fa-utensils"></i> Productos
           </router-link>
           <a 
             href="https://wa.me/593987654321" 
@@ -161,7 +161,7 @@ const clearSearch = () => {
             class="mobile-nav-link"
             @click="closeMobileMenu"
           >
-            💬 Contacto WhatsApp
+            <i class="fab fa-whatsapp"></i> Contacto WhatsApp
           </a>
         </div>
       </div>
@@ -250,6 +250,15 @@ const clearSearch = () => {
       cursor: pointer;
       transition: all 0.3s ease;
       color: $text-light;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 40px;
+      min-height: 40px;
+
+      i {
+        font-size: 1.1rem;
+      }
 
       &:hover, &.active {
         background: rgba($ENCEBOLLADO-PRIMARY, 0.1);
@@ -312,6 +321,13 @@ const clearSearch = () => {
         background: linear-gradient(135deg, $ENCEBOLLADO-PRIMARY, $ENCEBOLLADO-SECONDARY);
         color: white;
         font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        i {
+          font-size: 1rem;
+        }
 
         &:hover {
           transform: translateY(-2px);
@@ -368,6 +384,12 @@ const clearSearch = () => {
         .search-icon {
           padding: 0 1rem;
           color: $text-light;
+          display: flex;
+          align-items: center;
+          
+          i {
+            font-size: 1rem;
+          }
         }
 
         .search-input {
@@ -391,6 +413,14 @@ const clearSearch = () => {
           color: $text-light;
           cursor: pointer;
           transition: color 0.3s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 40px;
+
+          i {
+            font-size: 0.9rem;
+          }
 
           &:hover {
             color: $ENCEBOLLADO-PRIMARY;
@@ -458,9 +488,18 @@ const clearSearch = () => {
           font-size: 1.5rem;
           color: $text-light;
           cursor: pointer;
-          padding: 0.25rem;
+          padding: 0.5rem;
           border-radius: 4px;
           transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 40px;
+          min-height: 40px;
+
+          i {
+            font-size: 1.2rem;
+          }
 
           &:hover {
             background: rgba($ENCEBOLLADO-PRIMARY, 0.1);
@@ -484,6 +523,12 @@ const clearSearch = () => {
           display: flex;
           align-items: center;
           gap: 0.75rem;
+
+          i {
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+          }
 
           &:hover, &.active {
             background: rgba($ENCEBOLLADO-PRIMARY, 0.1);
