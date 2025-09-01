@@ -47,9 +47,21 @@ const currentYear = new Date().getFullYear()
 
 <style lang="scss" scoped>
 .footer {
-  background: linear-gradient(135deg, $blue-dark 0%, $ENCEBOLLADO-PRIMARY 100%);
-  color: white;
+  background: linear-gradient(135deg, $gray-900 0%, $gray-800 50%, $blue-dark 100%);
+  color: $white;
   padding: 3rem 0 1rem;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba($ENCEBOLLADO-PRIMARY, 0.1) 0%, rgba($blue-light, 0.05) 100%);
+    pointer-events: none;
+  }
 
   .footer-container {
     max-width: 1200px;
@@ -62,6 +74,8 @@ const currentYear = new Date().getFullYear()
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 2rem;
     margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
   }
 
   .footer-section {
@@ -69,12 +83,14 @@ const currentYear = new Date().getFullYear()
       font-size: 1.2rem;
       font-weight: 700;
       margin-bottom: 1rem;
-      color: white;
+      color: $white;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     }
 
     .footer-description {
       line-height: 1.6;
-      color: rgba(255, 255, 255, 0.8);
+      color: $gray-200;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
     }
 
     .contact-links {
@@ -86,12 +102,15 @@ const currentYear = new Date().getFullYear()
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        color: rgba(255, 255, 255, 0.8);
+        color: $gray-200;
         text-decoration: none;
-        transition: color 0.3s ease;
+        transition: all 0.3s ease;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 
         &:hover {
-          color: white;
+          color: $white;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+          transform: translateX(2px);
         }
 
         i {
@@ -102,23 +121,28 @@ const currentYear = new Date().getFullYear()
     }
 
     .schedule {
-      color: rgba(255, 255, 255, 0.8);
+      color: $gray-200;
       line-height: 1.6;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 
       .hours {
         font-weight: 600;
         color: $success;
         font-size: 1.1rem;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
       }
     }
   }
 
   .footer-bottom {
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid $gray-600;
     padding-top: 1rem;
     text-align: center;
-    color: rgba(255, 255, 255, 0.6);
+    color: $gray-300;
     font-size: 0.9rem;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   }
 }
 
