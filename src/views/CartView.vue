@@ -1,12 +1,18 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useCartStore } from '../stores/cartStore';
 import { useMenuStore } from '../stores/menuStore';
+import ConfirmDeleteModal from '../components/global/ConfirmDeleteModal.vue';
 
 const cartStore = useCartStore();
 const menuStore = useMenuStore();
 const router = useRouter();
+
+// Modal state
+const showDeleteModal = ref(false);
+const productToDelete = ref<{ id: string; name: string; image: string } | null>(null);
+const showClearCartModal = ref(false);
 
 // Computed properties
 const cartItemsWithCategory = computed(() => {
@@ -30,6 +36,38 @@ const handleCheckout = () => {
     return;
   }
   cartStore.sendWhatsAppOrder();
+};
+
+// Delete confirmation methods
+const showDeleteConfirmation = (productId: string, productName: string, productImage: string) => {
+  productToDelete.value = { id: productId, name: productName, image: productImage };
+  showDeleteModal.value = true;
+};
+
+const handleDeleteConfirm = () => {
+  if (productToDelete.value) {
+    cartStore.removeItem(Number(productToDelete.value.id));
+  }
+  closeDeleteModal();
+};
+
+const closeDeleteModal = () => {
+  showDeleteModal.value = false;
+  productToDelete.value = null;
+};
+
+// Clear cart confirmation methods
+const showClearCartConfirmation = () => {
+  showClearCartModal.value = true;
+};
+
+const handleClearCartConfirm = () => {
+  cartStore.clearCart();
+  closeClearCartModal();
+};
+
+const closeClearCartModal = () => {
+  showClearCartModal.value = false;
 };
 </script>
 
@@ -127,7 +165,7 @@ const handleCheckout = () => {
                   
                   <button 
                     class="remove-btn"
-                    @click="cartStore.removeItem(item.product.id)"
+                    @click="showDeleteConfirmation(item.product.id.toString(), item.product.name, item.product.image)"
                     title="Eliminar producto"
                   >
                     <i class="fas fa-trash"></i>
@@ -151,7 +189,7 @@ const handleCheckout = () => {
             </div>
             
             <div class="action-buttons">
-              <button class="clear-btn" @click="cartStore.clearCart()">
+              <button class="clear-btn" @click="showClearCartConfirmation">
                 Limpiar Carrito
               </button>
               <button class="checkout-btn" @click="handleCheckout">
@@ -163,6 +201,23 @@ const handleCheckout = () => {
         </div>
       </div>
     </div>
+
+    <!-- Delete Confirmation Modal -->
+    <ConfirmDeleteModal
+      :is-visible="showDeleteModal"
+      :product-name="productToDelete?.name || ''"
+      :product-image="productToDelete?.image"
+      @confirm="handleDeleteConfirm"
+      @cancel="closeDeleteModal"
+    />
+
+    <!-- Clear Cart Confirmation Modal -->
+    <ConfirmDeleteModal
+      :is-visible="showClearCartModal"
+      product-name="todos los productos del carrito"
+      @confirm="handleClearCartConfirm"
+      @cancel="closeClearCartModal"
+    />
   </div>
 </template>
 
