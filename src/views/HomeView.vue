@@ -25,11 +25,11 @@ onMounted(() => {
             elaborada con ingredientes selectos y técnicas ancestrales que han pasado de generación en generación.
           </p>
           <div class="hero-cta">
-            <a href="https://wa.me/593978602847" target="_blank" class="cta-button primary">
-              <i class="fab fa-whatsapp"></i>
-              Reservar Mesa
-            </a>
-            <a href="https://maps.app.goo.gl/w5AxsfAFWsz4N7yh6" target="_blank" class="cta-button secondary">
+            <router-link to="/productos" class="cta-button primary">
+              <i class="fas fa-utensils"></i>
+              Seleccionar Productos
+            </router-link>
+            <a href="https://www.google.com/maps/search/la+casa+del+encebollado/@-2.1406961,-79.8856817,15z/data=!3m1!4b1?entry=ttu&g_ep=EgoyMDI1MDgyNS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="cta-button secondary">
               <i class="fas fa-map-marker-alt"></i>
               Ubicación
             </a>
