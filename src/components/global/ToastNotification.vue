@@ -55,15 +55,15 @@ const displayMessage = computed(() => {
 const getIcon = () => {
   switch (props.type) {
     case 'success':
-      return '✅';
+      return 'fas fa-check-circle';
     case 'error':
-      return '❌';
+      return 'fas fa-times-circle';
     case 'warning':
-      return '⚠️';
+      return 'fas fa-exclamation-triangle';
     case 'info':
-      return 'ℹ️';
+      return 'fas fa-info-circle';
     default:
-      return '✅';
+      return 'fas fa-check-circle';
   }
 };
 
@@ -154,7 +154,7 @@ onUnmounted(() => {
           
           <!-- Icon -->
           <div class="toast-icon">
-            {{ getIcon() }}
+            <i :class="getIcon()"></i>
           </div>
           
           <!-- Message Content -->
@@ -171,7 +171,7 @@ onUnmounted(() => {
             @click="closeToast"
             aria-label="Cerrar notificación"
           >
-            ✕
+            <i class="fas fa-times"></i>
           </button>
         </div>
         
@@ -248,7 +248,6 @@ onUnmounted(() => {
 }
 
 .toast-icon {
-  font-size: 1.8rem;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -258,6 +257,11 @@ onUnmounted(() => {
   background: linear-gradient(135deg, rgba($ENCEBOLLADO-PRIMARY, 0.1), rgba($ENCEBOLLADO-PRIMARY, 0.05));
   border-radius: 50%;
   animation: toast-icon-pulse 2s ease-in-out infinite;
+  
+  i {
+    font-size: 1.2rem;
+    color: $ENCEBOLLADO-PRIMARY;
+  }
 }
 
 .toast-message {
@@ -292,12 +296,15 @@ onUnmounted(() => {
   right: 0.5rem;
   background: none;
   border: none;
-  font-size: 1.2rem;
   color: $text-light;
   cursor: pointer;
   padding: 0.25rem;
   border-radius: 4px;
   transition: all 0.2s ease;
+  
+  i {
+    font-size: 1rem;
+  }
   
   &:hover {
     background: $gray-100;
