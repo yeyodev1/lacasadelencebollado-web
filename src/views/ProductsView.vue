@@ -12,6 +12,8 @@ const router = useRouter();
 
 // Local state for UI (simplified)
 // Removed complex filters - keeping only essential functionality
+const showToast = ref(false);
+const toastProduct = ref<Producto | undefined>(undefined);
 
 // Computed properties
 const sortedProducts = computed(() => {
@@ -110,11 +112,19 @@ const addToCart = (product: Producto, event?: Event) => {
   
   try {
     cartStore.addItem(product, 1);
-    // Aquí podrías agregar una notificación de éxito
+    
+    // Show toast notification with same pattern as ProductDetailView
+    toastProduct.value = product;
+    showToast.value = true;
   } catch (error) {
     console.error('Error al agregar producto al carrito:', error);
     // Aquí podrías agregar una notificación de error
   }
+};
+
+const closeToast = () => {
+  showToast.value = false;
+  toastProduct.value = undefined;
 };
 
 // Lifecycle
@@ -306,13 +316,10 @@ onMounted(() => {
     
     <!-- Toast Notifications -->
     <ToastNotification
-      v-if="cartStore.currentNotification"
-      :show="cartStore.currentNotification.show"
-      :product="cartStore.currentNotification.product"
-      :message="cartStore.currentNotification.message"
-      :type="cartStore.currentNotification.type"
-      :duration="cartStore.currentNotification.duration"
-      @close="cartStore.closeCurrentNotification"
+      :show="showToast"
+      :product="toastProduct"
+      type="success"
+      @close="closeToast"
     />
   </div>
 </template>
