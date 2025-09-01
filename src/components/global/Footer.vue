@@ -40,6 +40,10 @@ const currentYear = new Date().getFullYear()
       </div>
       <div class="footer-bottom">
         <p>&copy; {{ currentYear }} MATJUFI SAS. Todos los derechos reservados.</p>
+        <p class="developer-credit">
+          Desarrollado con ❤️ por 
+          <a href="https://yeyo.dev/" target="_blank" class="developer-link">YeyoDev</a>
+        </p>
       </div>
     </div>
   </footer>
@@ -143,6 +147,25 @@ const currentYear = new Date().getFullYear()
     position: relative;
     z-index: 1;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+
+    .developer-credit {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: $gray-400;
+
+      .developer-link {
+        color: $ENCEBOLLADO-PRIMARY;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+
+        &:hover {
+          color: $white;
+          text-shadow: 0 0 8px rgba($ENCEBOLLADO-PRIMARY, 0.6);
+        }
+      }
+    }
   }
 }
 
