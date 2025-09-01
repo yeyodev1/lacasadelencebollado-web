@@ -258,7 +258,7 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-@import '../styles/colorVariables.module.scss';
+@use 'sass:color';
 
 .products-view {
   min-height: 100vh;
@@ -586,12 +586,12 @@ onMounted(() => {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
-  
+
   @media (max-width: 768px) {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1rem;
   }
-  
+
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
   }
@@ -711,17 +711,17 @@ onMounted(() => {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   &.new {
-    background: linear-gradient(135deg, $success, darken($success, 10%));
+    background: linear-gradient(135deg, $success, color.adjust($success, $lightness: -10%));
     color: $white;
   }
 
   &.popular {
-    background: linear-gradient(135deg, $error, darken($error, 10%));
+    background: linear-gradient(135deg, $error, color.adjust($error, $lightness: -10%));
     color: $white;
   }
 
   &.promotion {
-    background: linear-gradient(135deg, $warning, darken($warning, 10%));
+    background: linear-gradient(135deg, $warning, color.adjust($warning, $lightness: -10%));
     color: $white;
   }
 
@@ -820,12 +820,12 @@ onMounted(() => {
   .category-filters {
     justify-content: center;
   }
-  
+
   .product-card {
     .product-name {
       font-size: 1rem;
     }
-    
+
     .current-price {
       font-size: 1.2rem;
     }
@@ -836,7 +836,7 @@ onMounted(() => {
   .category-filters {
     gap: 0.5rem;
   }
-  
+
   .category-btn {
     padding: 0.6rem 1.2rem;
     font-size: 0.9rem;
