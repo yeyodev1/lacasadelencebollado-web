@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ProductsView from '../views/ProductsView.vue'
+import ProductDetailView from '../views/ProductDetailView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,13 +15,21 @@ const router = createRouter({
       }
     },
     {
-      path: '/productos',
-      name: 'products',
-      component: ProductsView,
-      meta: {
-        title: 'Productos - La Casa del Encebollado'
-      }
-    },
+    path: '/productos',
+    name: 'productos',
+    component: ProductsView,
+    meta: {
+      title: 'Productos - La Casa del Encebollado'
+    }
+  },
+  {
+    path: '/productos/:id',
+    name: 'producto-detalle',
+    component: ProductDetailView,
+    meta: {
+      title: 'Detalle del Producto - La Casa del Encebollado'
+    }
+  },
     {
       path: '/:pathMatch(.*)*',
       redirect: '/'
