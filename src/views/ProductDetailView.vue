@@ -40,7 +40,12 @@ const totalPrice = computed(() => {
 const productImages = computed(() => {
   if (!product.value) return [];
   // En un caso real, aquí tendrías múltiples imágenes
-  return [product.value.image, product.value.image, product.value.image];
+  // Por ahora solo mostramos una imagen para evitar duplicados
+  return [product.value.image];
+});
+
+const showImageThumbnails = computed(() => {
+  return productImages.value.length > 1;
 });
 
 const categoryInfo = computed(() => {
@@ -174,7 +179,7 @@ onMounted(async () => {
                 </div>
               </div>
               
-              <div class="image-thumbnails">
+              <div v-if="showImageThumbnails" class="image-thumbnails">
                 <button 
                   v-for="(image, index) in productImages"
                   :key="index"
