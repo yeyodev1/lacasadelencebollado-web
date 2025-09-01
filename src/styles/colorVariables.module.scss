@@ -11,10 +11,17 @@ $blue-primary: $ENCEBOLLADO-BLUE;
 $text-dark: #1a1a1a;
 $text-light: #666666;
 
+// Colores de fondo y bordes
+$background-light: #f8f9fa;
+$border-light: #e9ecef;
+
 // Variaciones del azul principal para diferentes estados
 @use 'sass:color';
 $blue-light: color.adjust($ENCEBOLLADO-BLUE, $lightness: 15%); // #5bb8fb
 $blue-dark: color.adjust($ENCEBOLLADO-BLUE, $lightness: -15%); // #1a8ae6
+
+// Color secundario (definido después de $blue-dark)
+$ENCEBOLLADO-SECONDARY: $blue-dark;
 $blue-hover: color.adjust($ENCEBOLLADO-BLUE, $lightness: -8%); // #2a9bf0
 $blue-overlay: rgba($ENCEBOLLADO-BLUE, 0.1);
 
