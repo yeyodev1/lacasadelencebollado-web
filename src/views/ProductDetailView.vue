@@ -2,17 +2,22 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useMenuStore } from '../stores/menuStore';
+import { useCartStore } from '../stores/cartStore';
+import ToastNotification from '../components/global/ToastNotification.vue';
 import type { Producto } from '../types/menu';
 
 const route = useRoute();
 const router = useRouter();
 const menuStore = useMenuStore();
+const cartStore = useCartStore();
 
 // Local state
 const quantity = ref(1);
 const selectedImageIndex = ref(0);
 const showFullDescription = ref(false);
 const isLoading = ref(true);
+const showToast = ref(false);
+const toastProduct = ref<Producto | undefined>(undefined);
 
 // Computed properties
 const productId = computed(() => route.params.id as string);
@@ -56,8 +61,20 @@ const decreaseQuantity = () => {
 
 const addToCart = () => {
   if (!product.value) return;
-  // Aquí implementarías la lógica del carrito
-  console.log(`Agregando ${quantity.value} x ${product.value.name} al carrito`);
+  
+  cartStore.addItem(product.value, quantity.value);
+  
+  // Show toast notification
+  toastProduct.value = product.value;
+  showToast.value = true;
+  
+  // Reset quantity after adding to cart
+  quantity.value = 1;
+};
+
+const closeToast = () => {
+  showToast.value = false;
+  toastProduct.value = undefined;
 };
 
 const goBack = () => {
@@ -253,10 +270,14 @@ onMounted(async () => {
                     {{ product.availability ? 'Agregar al Carrito' : 'No Disponible' }}
                   </button>
                   
-                  <button class="whatsapp-btn">
+                  <a 
+                    href="https://wa.me/593978602847" 
+                    target="_blank" 
+                    class="whatsapp-btn"
+                  >
                     <i class="fab fa-whatsapp"></i>
                     Consultar por WhatsApp
-                  </button>
+                  </a>
                 </div>
               </div>
 
@@ -316,6 +337,14 @@ onMounted(async () => {
         </div>
       </div>
     </div>
+
+    <!-- Toast Notification -->
+    <ToastNotification
+      :show="showToast"
+      :product="toastProduct"
+      type="success"
+      @close="closeToast"
+    />
   </div>
 </template>
 
@@ -759,11 +788,13 @@ onMounted(async () => {
         border-radius: 0.75rem;
         font-weight: 600;
         cursor: pointer;
+        text-decoration: none;
         transition: all 0.3s ease;
         
         &:hover {
           background: color.adjust($success, $lightness: -10%);
           transform: translateY(-2px);
+          color: white;
         }
       }
     }
