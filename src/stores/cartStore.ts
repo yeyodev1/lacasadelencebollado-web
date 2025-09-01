@@ -2,6 +2,16 @@ import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import type { Producto } from '../types/menu';
 
+// Notification interface
+interface ToastNotification {
+  id: string;
+  show: boolean;
+  product?: Producto;
+  message?: string;
+  type: 'success' | 'error' | 'warning' | 'info';
+  duration?: number;
+}
+
 export interface CartItem {
   product: Producto;
   quantity: number;
@@ -12,6 +22,10 @@ export const useCartStore = defineStore('cart', () => {
   // State
   const items = ref<CartItem[]>([]);
   const isOpen = ref(false);
+  
+  // Estado de notificaciones
+  const notifications = ref<ToastNotification[]>([]);
+  const currentNotification = ref<ToastNotification | null>(null);
 
   // Getters
   const totalItems = computed(() => {
@@ -51,9 +65,15 @@ export const useCartStore = defineStore('cart', () => {
       item => item.product.id === product.id
     );
 
+    let message = '';
+    let isNewItem = false;
+
     if (existingItemIndex !== -1) {
       // Si el producto ya existe, incrementar cantidad
+      const oldQuantity = items.value[existingItemIndex].quantity;
       items.value[existingItemIndex].quantity += quantity;
+      const newQuantity = items.value[existingItemIndex].quantity;
+      message = `${product.name} (${newQuantity} unidades en el carrito)`;
     } else {
       // Si es nuevo, agregarlo al carrito
       items.value.push({
@@ -61,7 +81,17 @@ export const useCartStore = defineStore('cart', () => {
         quantity,
         addedAt: new Date()
       });
+      isNewItem = true;
+      message = `${product.name} agregado al carrito`;
     }
+    
+    // Mostrar notificación de éxito
+    showNotification({
+      type: 'success',
+      product,
+      message,
+      duration: 3000,
+    });
   };
 
   const removeItem = (productId: string | number) => {
@@ -135,6 +165,52 @@ export const useCartStore = defineStore('cart', () => {
     return items.value.some(item => item.product.id === productId);
   };
 
+  // Funciones de notificaciones
+  const showNotification = (notification: Omit<ToastNotification, 'id' | 'show'>) => {
+    const id = Date.now().toString();
+    const newNotification: ToastNotification = {
+      id,
+      show: true,
+      duration: 3000,
+      ...notification,
+    };
+    
+    // Cerrar notificación actual si existe
+    if (currentNotification.value) {
+      currentNotification.value.show = false;
+    }
+    
+    currentNotification.value = newNotification;
+    notifications.value.push(newNotification);
+    
+    // Auto-remover después de la duración
+    setTimeout(() => {
+      removeNotification(id);
+    }, newNotification.duration || 3000);
+  };
+  
+  const removeNotification = (id: string) => {
+    const index = notifications.value.findIndex(n => n.id === id);
+    if (index > -1) {
+      notifications.value.splice(index, 1);
+    }
+    
+    if (currentNotification.value?.id === id) {
+      currentNotification.value = null;
+    }
+  };
+  
+  const closeCurrentNotification = () => {
+    if (currentNotification.value) {
+      currentNotification.value.show = false;
+      setTimeout(() => {
+        if (currentNotification.value) {
+          removeNotification(currentNotification.value.id);
+        }
+      }, 300);
+    }
+  };
+
   // WhatsApp checkout functionality
   const generateWhatsAppMessage = (): string => {
     if (isEmpty.value) {
@@ -186,6 +262,8 @@ export const useCartStore = defineStore('cart', () => {
     // State
     items,
     isOpen,
+    notifications,
+    currentNotification,
     
     // Getters
     totalItems,
@@ -203,6 +281,11 @@ export const useCartStore = defineStore('cart', () => {
     toggleCart,
     openCart,
     closeCart,
+    
+    // Notifications
+    showNotification,
+    removeNotification,
+    closeCurrentNotification,
     
     // Utilities
     formatPrice,
