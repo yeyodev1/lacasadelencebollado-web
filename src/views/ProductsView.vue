@@ -30,7 +30,34 @@ const productsByCategory = computed(() => {
     grouped.get(product.category).push(product);
   });
 
-  return grouped;
+  // Ordenar las categorías según el orden definido en categorias.ts
+  const orderedCategories = new Map();
+  const categoryOrder = [
+    'promociones',
+    'encebollados', 
+    'ceviches',
+    'bollos',
+    'cazuelas',
+    'congelados',
+    'acompañamientos',
+    'bebidas'
+  ];
+
+  // Agregar categorías en el orden correcto
+  categoryOrder.forEach(categoryId => {
+    if (grouped.has(categoryId)) {
+      orderedCategories.set(categoryId, grouped.get(categoryId));
+    }
+  });
+
+  // Agregar cualquier categoría que no esté en el orden definido
+  grouped.forEach((products, categoryId) => {
+    if (!orderedCategories.has(categoryId)) {
+      orderedCategories.set(categoryId, products);
+    }
+  });
+
+  return orderedCategories;
 });
 
 const totalProducts = computed(() => sortedProducts.value.length);
