@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch, onUnmounted } from 'vue';
+import { useRouter } from 'vue-router';
 import type { Producto } from '../../types/menu';
 
 interface ToastProps {
@@ -36,6 +37,8 @@ const props = defineProps({
 const emit = defineEmits<{
   close: [];
 }>();
+
+const router = useRouter();
 
 const isVisible = ref(false);
 const isAnimating = ref(false);
@@ -86,6 +89,11 @@ const closeToast = () => {
     isAnimating.value = false;
     emit('close');
   }, 300); // Animation duration
+};
+
+const goToCart = () => {
+  closeToast();
+  router.push('/carrito');
 };
 
 // Watch for show prop changes
@@ -163,6 +171,18 @@ onUnmounted(() => {
             <p v-if="product" class="toast-price">
               {{ `$${product.price.toFixed(2)}` }}
             </p>
+            
+            <!-- Action Buttons -->
+            <div v-if="product && type === 'success'" class="toast-actions">
+              <button 
+                class="toast-cart-btn"
+                @click="goToCart"
+                aria-label="Ir al carrito"
+              >
+                <i class="fas fa-shopping-cart"></i>
+                Ir al Carrito
+              </button>
+            </div>
           </div>
           
           <!-- Close Button -->
@@ -283,11 +303,45 @@ onUnmounted(() => {
   font-size: 0.9rem;
   color: $ENCEBOLLADO-PRIMARY;
   font-weight: 700;
-  margin: 0.4rem 0 0 0;
+  margin: 0.4rem 0 0.6rem 0;
   padding: 0.2rem 0.6rem;
   background: linear-gradient(135deg, rgba($ENCEBOLLADO-PRIMARY, 0.1), rgba($ENCEBOLLADO-PRIMARY, 0.05));
   border-radius: 8px;
   display: inline-block;
+}
+
+.toast-actions {
+  margin-top: 0.75rem;
+}
+
+.toast-cart-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, $ENCEBOLLADO-PRIMARY, $blue-light);
+  color: $white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba($ENCEBOLLADO-PRIMARY, 0.2);
+  
+  i {
+    font-size: 0.8rem;
+  }
+  
+  &:hover {
+    background: linear-gradient(135deg, $blue-hover, $ENCEBOLLADO-PRIMARY);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba($ENCEBOLLADO-PRIMARY, 0.3);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
 }
 
 .toast-close {
@@ -431,6 +485,15 @@ onUnmounted(() => {
   
   .toast-price {
     font-size: 0.8rem;
+  }
+  
+  .toast-cart-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    
+    i {
+      font-size: 0.75rem;
+    }
   }
 }
 </style>
