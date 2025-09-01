@@ -101,7 +101,7 @@ const goToCart = () => {
         <nav class="navigation desktop-nav">
           <router-link to="/" class="nav-link" active-class="active">Inicio</router-link>
           <router-link to="/productos" class="nav-link" active-class="active">Productos</router-link>
-          <a href="https://wa.me/593987654321" target="_blank" class="nav-link contact-link">
+          <a href="https://wa.me/593978602847" target="_blank" class="nav-link contact-link">
             <i class="fab fa-whatsapp"></i> Contacto
           </a>
         </nav>
@@ -183,7 +183,7 @@ const goToCart = () => {
             <span v-if="cartStore.totalItems > 0" class="mobile-cart-badge">{{ cartStore.totalItems }}</span>
           </router-link>
           <a 
-            href="https://wa.me/593987654321" 
+            href="https://wa.me/593978602847" 
             target="_blank"
             class="mobile-nav-link"
             @click="closeMobileMenu"
