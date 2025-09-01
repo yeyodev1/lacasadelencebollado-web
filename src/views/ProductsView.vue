@@ -424,7 +424,7 @@ onMounted(() => {
   padding: 4rem 0;
   position: relative;
   overflow: hidden;
-  
+
   &::before {
     content: '';
     position: absolute;
@@ -572,7 +572,7 @@ onMounted(() => {
     background: $white;
     font-weight: 500;
     transition: all 0.3s ease;
-    
+
     &:focus {
       outline: none;
       border-color: $ENCEBOLLADO-PRIMARY;
@@ -599,7 +599,7 @@ onMounted(() => {
 
     &.desc {
       transform: rotate(180deg);
-      
+
       &:hover {
         transform: rotate(180deg) translateY(-2px);
       }
@@ -717,7 +717,7 @@ onMounted(() => {
     border-color: $ENCEBOLLADO-PRIMARY;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    
+
     &::before {
       left: 100%;
     }
@@ -894,7 +894,7 @@ onMounted(() => {
     color: $text-dark;
     margin-bottom: 0.75rem;
     position: relative;
-    
+
     &::after {
       content: '';
       position: absolute;
@@ -960,12 +960,13 @@ onMounted(() => {
       }
 
       .product-description {
+        line-clamp: 3;
         -webkit-line-clamp: 3;
       }
 
       &:hover {
         transform: translateX(8px);
-        
+
         .product-image img {
           transform: scale(1.05);
         }
@@ -1000,7 +1001,7 @@ onMounted(() => {
     transform: translateY(-8px) scale(1.02);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
     border-color: $ENCEBOLLADO-PRIMARY;
-    
+
     &::before {
       opacity: 1;
     }
@@ -1017,7 +1018,7 @@ onMounted(() => {
   &.promotion {
     border: 2px solid $warning;
     box-shadow: 0 4px 20px rgba($warning, 0.2);
-    
+
     &::after {
       content: '';
       position: absolute;
@@ -1033,7 +1034,7 @@ onMounted(() => {
   &.popular {
     border: 2px solid $error;
     box-shadow: 0 4px 20px rgba($error, 0.2);
-    
+
     &::after {
       content: '';
       position: absolute;
@@ -1087,19 +1088,19 @@ onMounted(() => {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   &.new {
-        background: linear-gradient(135deg, $success, color.adjust($success, $lightness: -10%));
-        color: $white;
-      }
+    background: linear-gradient(135deg, $success, color.adjust($success, $lightness: -10%));
+    color: $white;
+  }
 
-      &.popular {
-        background: linear-gradient(135deg, $error, color.adjust($error, $lightness: -10%));
-        color: $white;
-      }
+  &.popular {
+    background: linear-gradient(135deg, $error, color.adjust($error, $lightness: -10%));
+    color: $white;
+  }
 
-      &.promotion {
-        background: linear-gradient(135deg, $warning, color.adjust($warning, $lightness: -10%));
-        color: $white;
-      }
+  &.promotion {
+    background: linear-gradient(135deg, $warning, color.adjust($warning, $lightness: -10%));
+    color: $white;
+  }
 
   &.unavailable {
     background: #6c757d;
@@ -1119,6 +1120,7 @@ onMounted(() => {
   margin-bottom: 0.75rem;
   line-height: 1.3;
   display: -webkit-box;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
