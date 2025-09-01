@@ -24,9 +24,9 @@ const currentYear = new Date().getFullYear()
               <i class="fas fa-envelope"></i>
               info@lacasadelencebollado.com
             </a>
-            <a href="https://maps.app.goo.gl/w5AxsfAFWsz4N7yh6" target="_blank" class="contact-link">
+            <a href="https://www.google.com/maps/search/la+casa+del+encebollado/@-2.1407391,-79.8856817,15z?entry=ttu&g_ep=EgoyMDI1MDgyNS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="contact-link">
               <i class="fas fa-map-marker-alt"></i>
-              Nuestra Ubicación
+              Nuestras Ubicaciones
             </a>
           </div>
         </div>
