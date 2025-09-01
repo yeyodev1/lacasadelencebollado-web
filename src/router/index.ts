@@ -46,9 +46,21 @@ const router = createRouter({
   ],
 })
 
-// Configurar títulos de página dinámicos
+// Configurar títulos de página dinámicos y scroll al top
 router.beforeEach((to) => {
   document.title = to.meta?.title as string || 'La Casa del Encebollado'
+})
+
+// Scroll suave al top en cada cambio de ruta
+router.afterEach(() => {
+  // Usar requestAnimationFrame para asegurar que el DOM esté listo
+  requestAnimationFrame(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    })
+  })
 })
 
 export default router
