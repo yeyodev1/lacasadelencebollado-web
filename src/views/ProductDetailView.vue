@@ -454,11 +454,30 @@ onMounted(async () => {
     align-items: center;
     gap: 0.5rem;
     font-size: 0.9rem;
+    flex-wrap: wrap;
+    
+    @media (max-width: 768px) {
+      font-size: 0.8rem;
+      gap: 0.25rem;
+    }
     
     .breadcrumb-item {
       color: $text-light;
       text-decoration: none;
       transition: color 0.3s ease;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 120px;
+      
+      @media (max-width: 768px) {
+        max-width: 80px;
+        font-size: 0.75rem;
+      }
+      
+      @media (max-width: 480px) {
+        max-width: 60px;
+      }
       
       &:hover {
         color: $ENCEBOLLADO-PRIMARY;
@@ -472,6 +491,11 @@ onMounted(async () => {
     
     .breadcrumb-separator {
       color: $gray-400;
+      flex-shrink: 0;
+      
+      @media (max-width: 768px) {
+        font-size: 0.7rem;
+      }
     }
   }
 }
