@@ -295,7 +295,7 @@ export const useCartStore = defineStore('cart', () => {
 
   const sendWhatsAppOrder = () => {
     const message = generateWhatsAppMessage();
-    const phoneNumber = '593987654321'; // Número de WhatsApp del restaurante
+    const phoneNumber = '593978602847'; // Número de WhatsApp del restaurante
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
     
