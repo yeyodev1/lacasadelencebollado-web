@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useMenuStore } from '../stores/menuStore';
 import { useCartStore } from '../stores/cartStore';
+import ToastNotification from '../components/global/ToastNotification.vue';
 import type { CategoriaProducto, Producto } from '../types/menu';
 
 const menuStore = useMenuStore();
@@ -275,6 +276,17 @@ onMounted(() => {
         </div>
       </div>
     </div>
+    
+    <!-- Toast Notifications -->
+    <ToastNotification
+      v-if="cartStore.currentNotification"
+      :show="cartStore.currentNotification.show"
+      :product="cartStore.currentNotification.product"
+      :message="cartStore.currentNotification.message"
+      :type="cartStore.currentNotification.type"
+      :duration="cartStore.currentNotification.duration"
+      @close="cartStore.closeCurrentNotification"
+    />
   </div>
 </template>
 
