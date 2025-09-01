@@ -66,7 +66,7 @@ const handleCheckout = () => {
       <div class="container">
         <!-- Empty Cart State -->
         <div v-if="cartStore.isEmpty" class="empty-cart">
-          <div class="empty-icon">🛒</div>
+          <div class="empty-icon"><i class="fas fa-shopping-cart"></i></div>
           <h3>Tu carrito está vacío</h3>
           <p>¡Agrega algunos deliciosos platos para comenzar!</p>
           <button class="browse-btn" @click="goToProducts">
@@ -130,7 +130,7 @@ const handleCheckout = () => {
                     @click="cartStore.removeItem(item.product.id)"
                     title="Eliminar producto"
                   >
-                    🗑️
+                    <i class="fas fa-trash"></i>
                   </button>
                 </div>
               </div>
@@ -155,7 +155,7 @@ const handleCheckout = () => {
                 Limpiar Carrito
               </button>
               <button class="checkout-btn" @click="handleCheckout">
-                <i class="icon-whatsapp">📱</i>
+                <i class="fab fa-whatsapp"></i>
                 Realizar Pedido por WhatsApp
               </button>
             </div>
