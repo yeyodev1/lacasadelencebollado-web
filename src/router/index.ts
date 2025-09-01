@@ -1,19 +1,27 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import UnderConstruction from '@/views/UnderConstruction.vue'
+import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'under-construction',
-      component: UnderConstruction,
+      name: 'home',
+      component: HomeView,
+      meta: {
+        title: 'La Casa del Encebollado - Auténtico Sabor Ecuatoriano'
+      }
     },
     {
       path: '/:pathMatch(.*)*',
       redirect: '/'
     }
   ],
+})
+
+// Configurar títulos de página dinámicos
+router.beforeEach((to) => {
+  document.title = to.meta?.title as string || 'La Casa del Encebollado'
 })
 
 export default router
