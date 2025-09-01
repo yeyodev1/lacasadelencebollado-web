@@ -31,7 +31,7 @@ onMounted(() => {
             </router-link>
             <a href="https://www.google.com/maps/search/la+casa+del+encebollado/@-2.1406961,-79.8856817,15z/data=!3m1!4b1?entry=ttu&g_ep=EgoyMDI1MDgyNS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="cta-button secondary">
               <i class="fas fa-map-marker-alt"></i>
-              Ubicación
+              Nuestras Ubicaciones
             </a>
           </div>
         </div>
@@ -374,10 +374,13 @@ onMounted(() => {
 
 // Animaciones
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.3;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.6;
     transform: scale(1.1);
@@ -385,12 +388,16 @@ onMounted(() => {
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0) rotate(0deg);
   }
+
   33% {
     transform: translateY(-10px) rotate(1deg);
   }
+
   66% {
     transform: translateY(-5px) rotate(-1deg);
   }
