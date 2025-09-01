@@ -7,33 +7,14 @@ import type { CategoriaProducto } from '../types/menu';
 const menuStore = useMenuStore();
 const router = useRouter();
 
-// Local state for UI
-const showFilters = ref(false);
-const viewMode = ref<'grid' | 'list'>('grid');
-const sortBy = ref<'name' | 'price' | 'popularity'>('name');
-const sortOrder = ref<'asc' | 'desc'>('asc');
+// Local state for UI (simplified)
+// Removed complex filters - keeping only essential functionality
 
 // Computed properties
 const sortedProducts = computed(() => {
   const products = [...menuStore.filteredProducts];
-
-  return products.sort((a, b) => {
-    let comparison = 0;
-
-    switch (sortBy.value) {
-      case 'name':
-        comparison = a.name.localeCompare(b.name);
-        break;
-      case 'price':
-        comparison = a.price - b.price;
-        break;
-      case 'popularity':
-        comparison = (b.isPopular ? 1 : 0) - (a.isPopular ? 1 : 0);
-        break;
-    }
-
-    return sortOrder.value === 'asc' ? comparison : -comparison;
-  });
+  // Simple alphabetical sorting by name
+  return products.sort((a, b) => a.name.localeCompare(b.name));
 });
 
 const productsByCategory = computed(() => {
@@ -53,10 +34,6 @@ const totalProducts = computed(() => sortedProducts.value.length);
 const totalCategories = computed(() => productsByCategory.value.size);
 
 // Methods
-const toggleFilters = () => {
-  showFilters.value = !showFilters.value;
-};
-
 const selectCategory = (category: CategoriaProducto | null) => {
   menuStore.setSelectedCategory(category);
 };
@@ -125,155 +102,39 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- Filters and Controls -->
+    <!-- Simple Filters -->
     <div class="filters-section">
       <div class="container">
-        <div class="filters-header">
-          <button 
-            class="filters-toggle"
-            @click="toggleFilters"
-            :class="{ active: showFilters }"
-          >
-            <i class="icon-filter"></i>
-            Filtros
-            <i class="icon-chevron" :class="{ rotated: showFilters }"></i>
-          </button>
-          
-          <div class="view-controls">
-            <div class="sort-controls">
-              <select v-model="sortBy" class="sort-select">
-                <option value="name">Nombre</option>
-                <option value="price">Precio</option>
-                <option value="popularity">Popularidad</option>
-              </select>
-              
-              <button 
-                class="sort-order"
-                @click="sortOrder = sortOrder === 'asc' ? 'desc' : 'asc'"
-                :class="sortOrder"
-              >
-                <i class="icon-sort"></i>
-              </button>
-            </div>
-            
-            <div class="view-mode">
-              <button 
-                class="view-btn"
-                :class="{ active: viewMode === 'grid' }"
-                @click="viewMode = 'grid'"
-              >
-                <i class="icon-grid"></i>
-              </button>
-              <button 
-                class="view-btn"
-                :class="{ active: viewMode === 'list' }"
-                @click="viewMode = 'list'"
-              >
-                <i class="icon-list"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Filters Panel -->
-        <div class="filters-panel" :class="{ visible: showFilters }">
-          <div class="filters-grid">
-            <!-- Search Filter -->
-            <div class="filter-group">
-              <label class="filter-label">Buscar</label>
-              <input 
-                type="text"
-                class="search-input"
-                placeholder="Buscar productos..."
-                :value="menuStore.searchTerm"
-                @input="updateSearch"
-              >
-            </div>
-            
-            <!-- Category Filter -->
-            <div class="filter-group">
-              <label class="filter-label">Categoría</label>
-              <div class="category-filters">
-                <button 
-                  class="category-btn"
-                  :class="{ active: !menuStore.selectedCategory }"
-                  @click="selectCategory(null)"
-                >
-                  Todas
-                </button>
-                <button 
-                  v-for="category in menuStore.allCategories"
-                  :key="category.id"
-                  class="category-btn"
-                  :class="{ active: menuStore.selectedCategory === category.id }"
-                  @click="selectCategory(category.id as CategoriaProducto)"
-                >
-                  {{ category.name }}
-                </button>
-              </div>
-            </div>
-            
-            <!-- Price Range Filter -->
-            <div class="filter-group">
-              <label class="filter-label">Rango de Precio</label>
-              <div class="price-range">
-                <input 
-                  type="range"
-                  min="0"
-                  max="50"
-                  :value="menuStore.priceRange.min"
-                  @input="updateMinPrice"
-                  class="range-input"
-                >
-                <input 
-                  type="range"
-                  min="0"
-                  max="50"
-                  :value="menuStore.priceRange.max"
-                  @input="updateMaxPrice"
-                  class="range-input"
-                >
-                <div class="price-display">
-                  ${{ menuStore.priceRange.min }} - ${{ menuStore.priceRange.max }}
-                </div>
-              </div>
-            </div>
-            
-            <!-- Quick Filters -->
-            <div class="filter-group">
-              <label class="filter-label">Filtros Rápidos</label>
-              <div class="quick-filters">
-                <button 
-                  class="quick-filter-btn"
-                  :class="{ active: menuStore.showOnlyPopular }"
-                  @click="menuStore.togglePopularFilter()"
-                >
-                  <i class="icon-star"></i>
-                  Populares
-                </button>
-                <button 
-                  class="quick-filter-btn"
-                  :class="{ active: menuStore.showOnlyPromotions }"
-                  @click="menuStore.togglePromotionsFilter()"
-                >
-                  <i class="icon-tag"></i>
-                  Promociones
-                </button>
-                <button 
-                  class="quick-filter-btn"
-                  :class="{ active: menuStore.showOnlyAvailable }"
-                  @click="menuStore.toggleAvailabilityFilter()"
-                >
-                  <i class="icon-check"></i>
-                  Disponibles
-                </button>
-              </div>
-            </div>
+        <div class="simple-filters">
+          <!-- Search Bar -->
+          <div class="search-container">
+            <input 
+              type="text"
+              class="search-input"
+              placeholder="Buscar platos..."
+              :value="menuStore.searchTerm"
+              @input="updateSearch"
+            >
+            <i class="search-icon">🔍</i>
           </div>
           
-          <div class="filters-actions">
-            <button class="clear-filters-btn" @click="clearAllFilters">
-              Limpiar Filtros
+          <!-- Category Buttons -->
+          <div class="category-filters">
+            <button 
+              class="category-btn"
+              :class="{ active: !menuStore.selectedCategory }"
+              @click="selectCategory(null)"
+            >
+              Todos los Platos
+            </button>
+            <button 
+              v-for="category in menuStore.allCategories"
+              :key="category.id"
+              class="category-btn"
+              :class="{ active: menuStore.selectedCategory === category.id }"
+              @click="selectCategory(category.id as CategoriaProducto)"
+            >
+              {{ category.name }}
             </button>
           </div>
         </div>
@@ -328,13 +189,7 @@ onMounted(() => {
               </span>
             </div>
             
-            <div 
-              class="products-grid"
-              :class="{
-                'grid-view': viewMode === 'grid',
-                'list-view': viewMode === 'list'
-              }"
-            >
+            <div class="products-grid">
               <div 
                 v-for="product in products"
                 :key="product.id"
@@ -403,8 +258,7 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-@use '../styles/colorVariables.module.scss' as *;
-@use 'sass:color';
+@import '../styles/colorVariables.module.scss';
 
 .products-view {
   min-height: 100vh;
@@ -495,198 +349,72 @@ onMounted(() => {
   }
 }
 
-// Filters Section
+// Simple Filters Section
 .filters-section {
   background: $white;
   border-bottom: 1px solid $border-light;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  backdrop-filter: blur(10px);
+  padding: 1.5rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.filters-header {
+.simple-filters {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 1.5rem;
   align-items: center;
-  padding: 1rem 0;
-  gap: 1rem;
 
-  @media (max-width: 768px) {
-    flex-direction: column;
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
   }
 }
 
-.filters-toggle {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 1.5rem;
-  background: $background-light;
-  border: 2px solid $border-light;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  font-weight: 600;
-  font-size: 1rem;
+.search-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
 
-  &:hover {
-    background: $gray-100;
-    border-color: $ENCEBOLLADO-PRIMARY;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-
-  &.active {
-    background: $ENCEBOLLADO-PRIMARY;
-    color: $white;
-    border-color: $ENCEBOLLADO-PRIMARY;
-    box-shadow: 0 6px 20px rgba($ENCEBOLLADO-PRIMARY, 0.3);
-  }
-
-  .icon-chevron {
-    transition: transform 0.3s ease;
-
-    &.rotated {
-      transform: rotate(180deg);
-    }
-  }
-}
-
-.view-controls {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.sort-controls {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-
-  .sort-select {
-    padding: 0.75rem 1rem;
+  .search-input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3rem;
     border: 2px solid $border-light;
-    border-radius: 8px;
-    background: $white;
-    font-weight: 500;
-    transition: all 0.3s ease;
+    border-radius: 50px;
+    font-size: 1rem;
+    background: $background-light;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:focus {
       outline: none;
       border-color: $ENCEBOLLADO-PRIMARY;
+      background: $white;
       box-shadow: 0 0 0 3px rgba($ENCEBOLLADO-PRIMARY, 0.1);
     }
-  }
 
-  .sort-order {
-    padding: 0.75rem;
-    border: 2px solid $border-light;
-    border-radius: 8px;
-    background: $white;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &:hover {
-      background: $background-light;
-      border-color: $ENCEBOLLADO-PRIMARY;
-      transform: translateY(-2px);
-    }
-
-    &.desc {
-      transform: rotate(180deg);
-
-      &:hover {
-        transform: rotate(180deg) translateY(-2px);
-      }
+    &::placeholder {
+      color: $text-light;
     }
   }
-}
 
-.view-mode {
-  display: flex;
-  border: 2px solid $border-light;
-  border-radius: 10px;
-  overflow: hidden;
-  background: $white;
-
-  .view-btn {
-    padding: 0.75rem 1rem;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &:hover {
-      background: $background-light;
-    }
-
-    &.active {
-      background: $ENCEBOLLADO-PRIMARY;
-      color: $white;
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    &:not(:last-child) {
-      border-right: 2px solid $border-light;
-    }
-  }
-}
-
-.filters-panel {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-
-  &.visible {
-    max-height: 500px;
-    padding: 1rem 0;
-    border-top: 1px solid #e9ecef;
-  }
-}
-
-.filters-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.filter-group {
-  .filter-label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #495057;
-  }
-}
-
-.search-input {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #dee2e6;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-
-  &:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  .search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: $text-light;
+    pointer-events: none;
   }
 }
 
 .category-filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  justify-content: center;
+
+  @media (min-width: 768px) {
+    justify-content: flex-end;
+  }
 }
 
 .category-btn {
@@ -697,30 +425,15 @@ onMounted(() => {
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 0.95rem;
-  font-weight: 500;
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba($ENCEBOLLADO-PRIMARY, 0.1), transparent);
-    transition: left 0.5s;
-  }
+  font-weight: 600;
+  color: $text-dark;
+  white-space: nowrap;
 
   &:hover {
     background: $background-light;
     border-color: $ENCEBOLLADO-PRIMARY;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-
-    &::before {
-      left: 100%;
-    }
   }
 
   &.active {
@@ -728,66 +441,7 @@ onMounted(() => {
     color: $white;
     border-color: $ENCEBOLLADO-PRIMARY;
     box-shadow: 0 6px 20px rgba($ENCEBOLLADO-PRIMARY, 0.3);
-  }
-}
-
-.price-range {
-  .range-input {
-    width: 100%;
-    margin-bottom: 0.5rem;
-  }
-
-  .price-display {
-    text-align: center;
-    font-weight: 600;
-    color: #007bff;
-  }
-}
-
-.quick-filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.quick-filter-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border: 1px solid #dee2e6;
-  border-radius: 0.5rem;
-  background: white;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 0.9rem;
-
-  &:hover {
-    background: #f8f9fa;
-  }
-
-  &.active {
-    background: #28a745;
-    color: white;
-    border-color: #28a745;
-  }
-}
-
-.filters-actions {
-  text-align: center;
-
-  .clear-filters-btn {
-    padding: 0.75rem 1.5rem;
-    background: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-
-    &:hover {
-      background: #c82333;
-    }
+    transform: translateY(-2px);
   }
 }
 
@@ -929,49 +583,17 @@ onMounted(() => {
 
 // Products Grid
 .products-grid {
-  &.grid-view {
-    display: grid;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  
+  @media (max-width: 768px) {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
-  }
-
-  &.list-view {
-    display: flex;
-    flex-direction: column;
     gap: 1rem;
-
-    .product-card {
-      display: flex;
-      align-items: center;
-      padding: 1.5rem;
-      border-radius: 12px;
-
-      .product-image {
-        width: 140px;
-        height: 140px;
-        flex-shrink: 0;
-        margin-right: 1.5rem;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      }
-
-      .product-info {
-        flex: 1;
-      }
-
-      .product-description {
-        line-clamp: 3;
-        -webkit-line-clamp: 3;
-      }
-
-      &:hover {
-        transform: translateX(8px);
-
-        .product-image img {
-          transform: scale(1.05);
-        }
-      }
-    }
+  }
+  
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -1051,8 +673,9 @@ onMounted(() => {
 .product-image {
   position: relative;
   width: 100%;
-  height: 220px;
+  height: 180px;
   overflow: hidden;
+  border-radius: 12px 12px 0 0;
 
   img {
     width: 100%;
@@ -1062,7 +685,7 @@ onMounted(() => {
   }
 
   &:hover img {
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
 }
 
@@ -1088,17 +711,17 @@ onMounted(() => {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   &.new {
-    background: linear-gradient(135deg, $success, color.adjust($success, $lightness: -10%));
+    background: linear-gradient(135deg, $success, darken($success, 10%));
     color: $white;
   }
 
   &.popular {
-    background: linear-gradient(135deg, $error, color.adjust($error, $lightness: -10%));
+    background: linear-gradient(135deg, $error, darken($error, 10%));
     color: $white;
   }
 
   &.promotion {
-    background: linear-gradient(135deg, $warning, color.adjust($warning, $lightness: -10%));
+    background: linear-gradient(135deg, $warning, darken($warning, 10%));
     color: $white;
   }
 
@@ -1109,15 +732,15 @@ onMounted(() => {
 }
 
 .product-info {
-  padding: 1.5rem;
+  padding: 1.25rem;
   position: relative;
 }
 
 .product-name {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: $text-dark;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   line-height: 1.3;
   display: -webkit-box;
   line-clamp: 2;
@@ -1128,9 +751,9 @@ onMounted(() => {
 
 .product-description {
   color: $text-light;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
   display: -webkit-box;
   line-clamp: 2;
   -webkit-line-clamp: 2;
@@ -1152,7 +775,7 @@ onMounted(() => {
 }
 
 .current-price {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 800;
   color: $ENCEBOLLADO-PRIMARY;
 }
@@ -1168,20 +791,20 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.25rem;
+  padding: 0.65rem 1rem;
   background: linear-gradient(135deg, $ENCEBOLLADO-PRIMARY, $blue-light);
   color: $white;
   border: none;
-  border-radius: 12px;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-weight: 600;
-  font-size: 0.95rem;
-  box-shadow: 0 4px 12px rgba($ENCEBOLLADO-PRIMARY, 0.3);
+  font-size: 0.9rem;
+  box-shadow: 0 3px 10px rgba($ENCEBOLLADO-PRIMARY, 0.3);
 
   &:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba($ENCEBOLLADO-PRIMARY, 0.4);
+    box-shadow: 0 5px 16px rgba($ENCEBOLLADO-PRIMARY, 0.4);
   }
 
   &:disabled {
@@ -1194,33 +817,29 @@ onMounted(() => {
 
 // Responsive Design
 @media (max-width: 768px) {
-  .filters-grid {
-    grid-template-columns: 1fr;
+  .category-filters {
+    justify-content: center;
   }
-
-  .products-grid.grid-view {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  }
-
-  .products-grid.list-view .product-card {
-    flex-direction: column;
-
-    .product-image {
-      width: 100%;
-      margin-right: 0;
-      margin-bottom: 1rem;
+  
+  .product-card {
+    .product-name {
+      font-size: 1rem;
+    }
+    
+    .current-price {
+      font-size: 1.2rem;
     }
   }
 }
 
 @media (max-width: 480px) {
-  .products-grid.grid-view {
-    grid-template-columns: 1fr;
+  .category-filters {
+    gap: 0.5rem;
   }
-
-  .category-filters,
-  .quick-filters {
-    justify-content: center;
+  
+  .category-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
   }
 }
 </style>
