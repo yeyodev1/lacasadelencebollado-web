@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { useMenuStore } from '../stores/menuStore';
 import type { CategoriaProducto } from '../types/menu';
 
 const menuStore = useMenuStore();
+const router = useRouter();
 
 // Local state for UI
 const showFilters = ref(false);
@@ -84,6 +86,10 @@ const clearAllFilters = () => {
 
 const getCategoryInfo = (categoryId: CategoriaProducto) => {
   return menuStore.getCategoryById(categoryId);
+};
+
+const goToProductDetail = (productId: string | number) => {
+  router.push(`/productos/${productId}`);
 };
 
 // Lifecycle
@@ -338,6 +344,7 @@ onMounted(() => {
                   'promotion': product.isPromotion,
                   'popular': product.isPopular
                 }"
+                @click="goToProductDetail(product.id)"
               >
                 <div class="product-image">
                   <img 
@@ -845,6 +852,7 @@ onMounted(() => {
   overflow: hidden;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  cursor: pointer;
   
   &:hover {
     transform: translateY(-5px);
