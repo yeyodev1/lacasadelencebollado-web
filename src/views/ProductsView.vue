@@ -173,7 +173,7 @@ onMounted(() => {
               :value="menuStore.searchTerm"
               @input="updateSearch"
             >
-            <i class="search-icon">🔍</i>
+            <i class="search-icon fas fa-search"></i>
           </div>
           
           <!-- Category Buttons -->
@@ -210,7 +210,7 @@ onMounted(() => {
         
         <!-- Error State -->
         <div v-else-if="menuStore.error" class="error-state">
-          <div class="error-icon">⚠️</div>
+          <div class="error-icon"><i class="fas fa-exclamation-triangle"></i></div>
           <h3>Error al cargar productos</h3>
           <p>{{ menuStore.error }}</p>
           <button class="retry-btn" @click="menuStore.loadMenuData()">
@@ -220,7 +220,7 @@ onMounted(() => {
         
         <!-- Empty State -->
         <div v-else-if="sortedProducts.length === 0" class="empty-state">
-          <div class="empty-icon">🔍</div>
+          <div class="empty-icon"><i class="fas fa-search"></i></div>
           <h3>No se encontraron productos</h3>
           <p>Intenta ajustar los filtros para ver más resultados</p>
           <button class="clear-filters-btn" @click="clearAllFilters">
@@ -267,11 +267,11 @@ onMounted(() => {
                   >
                   <div class="product-badges">
                     <span v-if="product.isPopular" class="badge popular">
-                      <i class="icon-star"></i>
+                      <i class="fas fa-star"></i>
                       Popular
                     </span>
                     <span v-if="product.isPromotion" class="badge promotion">
-                      <i class="icon-tag"></i>
+                      <i class="fas fa-tag"></i>
                       Oferta
                     </span>
                     <span v-if="!product.availability" class="badge unavailable">
@@ -302,7 +302,7 @@ onMounted(() => {
                       :disabled="!product.availability"
                       @click="addToCart(product, $event)"
                     >
-                      <i class="icon-cart"></i>
+                      <i class="fas fa-shopping-cart"></i>
                       {{ product.availability ? 'Agregar' : 'Agotado' }}
                     </button>
                   </div>
@@ -467,7 +467,7 @@ onMounted(() => {
     left: 1rem;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: $text-light;
     pointer-events: none;
   }
@@ -539,10 +539,13 @@ onMounted(() => {
 
   .error-icon,
   .empty-icon {
-    font-size: 5rem;
     margin-bottom: 1.5rem;
     color: $gray-300;
     opacity: 0.7;
+
+    i {
+      font-size: 4rem;
+    }
   }
 
   h3 {
@@ -777,6 +780,10 @@ onMounted(() => {
   letter-spacing: 0.5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
+  i {
+    font-size: 0.7rem;
+  }
+
   &.new {
     background: linear-gradient(135deg, $success, color.adjust($success, $lightness: -10%));
     color: $white;
@@ -867,6 +874,10 @@ onMounted(() => {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-weight: 600;
   font-size: 0.9rem;
+
+  i {
+    font-size: 0.85rem;
+  }
   box-shadow: 0 3px 10px rgba($ENCEBOLLADO-PRIMARY, 0.3);
 
   &:hover:not(:disabled) {
