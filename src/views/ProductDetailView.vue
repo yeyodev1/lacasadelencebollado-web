@@ -276,7 +276,7 @@ onMounted(async () => {
                   </button>
                   
                   <a 
-                    href="https://wa.me/593978602847" 
+                    :href="`https://wa.me/593978602847?text=Hola, tengo una pregunta acerca de ${encodeURIComponent(product.name)}, por favor.`" 
                     target="_blank" 
                     class="whatsapp-btn"
                   >
