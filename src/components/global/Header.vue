@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useMenuStore } from '../../stores/menuStore'
+import { useCartStore } from '../../stores/cartStore'
 
 const route = useRoute()
+const router = useRouter()
 const menuStore = useMenuStore()
+const cartStore = useCartStore()
 
 // Estado reactivo para animaciones y UI
 const isVisible = ref(false)
@@ -57,6 +60,10 @@ const clearSearch = () => {
   searchQuery.value = ''
   menuStore.setSearchTerm('')
 }
+
+const goToCart = () => {
+  router.push('/carrito')
+}
 </script>
 
 <template>
@@ -78,6 +85,16 @@ const clearSearch = () => {
           title="Buscar productos"
         >
           <i class="fas fa-search"></i>
+        </button>
+        
+        <!-- Cart Button -->
+        <button 
+          class="action-btn cart-btn"
+          @click="goToCart"
+          title="Ver carrito"
+        >
+          <i class="fas fa-shopping-cart"></i>
+          <span v-if="cartStore.totalItems > 0" class="cart-badge">{{ cartStore.totalItems }}</span>
         </button>
         
         <!-- Desktop Navigation -->
@@ -154,6 +171,16 @@ const clearSearch = () => {
             @click="closeMobileMenu"
           >
             <i class="fas fa-utensils"></i> Productos
+          </router-link>
+          <router-link 
+            to="/carrito" 
+            class="mobile-nav-link" 
+            active-class="active"
+            @click="closeMobileMenu"
+          >
+            <i class="fas fa-shopping-cart"></i> 
+            Mi Carrito
+            <span v-if="cartStore.totalItems > 0" class="mobile-cart-badge">{{ cartStore.totalItems }}</span>
           </router-link>
           <a 
             href="https://wa.me/593987654321" 
@@ -263,6 +290,29 @@ const clearSearch = () => {
       &:hover, &.active {
         background: rgba($ENCEBOLLADO-PRIMARY, 0.1);
         color: $ENCEBOLLADO-PRIMARY;
+      }
+    }
+
+    .cart-btn {
+      position: relative;
+
+      .cart-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: $ENCEBOLLADO-PRIMARY;
+        color: white;
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 2px 6px;
+        border-radius: 10px;
+        min-width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+        box-shadow: 0 2px 4px rgba($ENCEBOLLADO-PRIMARY, 0.3);
       }
     }
 
@@ -523,11 +573,28 @@ const clearSearch = () => {
           display: flex;
           align-items: center;
           gap: 0.75rem;
+          position: relative;
 
           i {
             font-size: 1.1rem;
             width: 20px;
             text-align: center;
+          }
+
+          .mobile-cart-badge {
+            background: $ENCEBOLLADO-PRIMARY;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 10px;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            margin-left: auto;
           }
 
           &:hover, &.active {
